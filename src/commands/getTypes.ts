@@ -52,7 +52,6 @@ async function getTypes(context: vscode.ExtensionContext) {
   const url = await vscode.window.showInputBox({
     title: 'Get type defs from json api end-point',
     placeHolder: 'Please enter a valid URL',
-    value: 'https://jsonplaceholder.typicode.com/users',
     ignoreFocusOut: true,
   })
 
