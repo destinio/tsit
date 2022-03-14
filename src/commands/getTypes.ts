@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import axios from 'axios'
 import jsonToTs from 'json-to-ts'
-import * as path from 'path'
+import * as copy from 'copy-to-clipboard'
 
 function createHTML(text: string[], webview: vscode.Webview, context: vscode.ExtensionContext) {
   const pres = text
@@ -11,9 +11,21 @@ function createHTML(text: string[], webview: vscode.Webview, context: vscode.Ext
     })
     .join('')
 
+  const toCopy = text
+    .map(type => {
+      return `${type}`
+    })
+    .join('\n\n')
+
+  console.log(toCopy)
+
   const css = webview.asWebviewUri(
     vscode.Uri.joinPath(context.extensionUri, 'public', 'styles.css')
   )
+
+  const js = vscode.Uri.joinPath(context.extensionUri, 'public', 'tsit.js')
+
+  const scriptUri = js.with({ scheme: 'vscode-resource' })
 
   return `<!DOCTYPE html>
 	<html lang="en">
@@ -24,8 +36,14 @@ function createHTML(text: string[], webview: vscode.Webview, context: vscode.Ext
 		<link href="${css}" rel="stylesheet">
 </head>
 <body>
-	<h1>Types<h1>
+	<h1>Types</h1>
+  <div class="controls">
+    <button id="copy-btn" class="btn">Copy to clipboard</button>
+    <div id="check-mark" class="check-mark">&#10003;</div>
+  </div>
+  <div id="to-copy" style="display: none">${toCopy}</div>
   ${pres}
+  <script src="${scriptUri}"></script>
 </body>
 </html>`
 }
@@ -34,6 +52,7 @@ async function getTypes(context: vscode.ExtensionContext) {
   const url = await vscode.window.showInputBox({
     title: 'Get type defs from json api end-point',
     placeHolder: 'Please enter a valid URL',
+    value: 'https://jsonplaceholder.typicode.com/users',
     ignoreFocusOut: true,
   })
 
@@ -63,8 +82,7 @@ async function getTypes(context: vscode.ExtensionContext) {
     'TSIt: Get all types',
     vscode.ViewColumn.One,
     {
-      // Only allow the webview to access resources in our extension's public directory
-      // localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'public'))],
+      enableScripts: true,
     }
   )
 

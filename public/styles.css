@@ -1,8 +1,55 @@
 body {
-  color: gold;
+  color: coral;
+  font-size: 16px;
 }
 
 pre {
-  font-size: 1rem;
+  font-size: 1em;
   color: #fff;
+}
+
+.controls {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  position: relative;
+}
+
+.btn {
+  background: #000;
+  color: coral;
+  border: 2px solid currentColor;
+  padding: 0.25em 0.5em;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: coral;
+  color: #000;
+}
+
+.check-mark {
+  font-size: 1em;
+  color: lime;
+  position: absolute;
+  z-index: -1;
+}
+
+.show {
+  display: inline-block;
+  left: 0;
+  animation: show 250ms ease-in-out forwards;
+}
+
+@keyframes show {
+  0% {
+    left: 100px;
+  }
+  80% {
+    left: 150px;
+  }
+
+  100% {
+    left: 140px;
+  }
 }
