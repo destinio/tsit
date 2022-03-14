@@ -37,7 +37,23 @@ async function getTypes(context: vscode.ExtensionContext) {
     ignoreFocusOut: true,
   })
 
-  const res = await axios(url!)
+  if (!url || url.length <= 0) {
+    vscode.window.showErrorMessage('Please Enter a valid URL')
+    return
+  }
+
+  const urlRegEx = new RegExp(
+    /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+  )
+
+  const isUrl = urlRegEx.test(url)
+
+  if (!isUrl) {
+    vscode.window.showErrorMessage('Please Enter a valid URL')
+    return
+  }
+
+  const res = await axios(url)
   const json = await res.data
 
   const types = jsonToTs(json)
