@@ -17,8 +17,6 @@ function createHTML(text: string[], webview: vscode.Webview, context: vscode.Ext
     })
     .join('\n\n')
 
-  console.log(toCopy)
-
   const css = webview.asWebviewUri(
     vscode.Uri.joinPath(context.extensionUri, 'public', 'styles.css')
   )
@@ -48,16 +46,20 @@ function createHTML(text: string[], webview: vscode.Webview, context: vscode.Ext
 </html>`
 }
 
-async function getTypes(context: vscode.ExtensionContext) {
-  const url = await vscode.window.showInputBox({
-    title: 'Get type defs from json api end-point',
-    placeHolder: 'Please enter a valid URL',
-    ignoreFocusOut: true,
-    // value: 'https://jsonplaceholder.typicode.com/users',
-  })
+async function getTypesFromSelected(context: vscode.ExtensionContext) {
+  const editor = vscode.window.activeTextEditor
+
+  if (!editor) {
+    vscode.window.showErrorMessage('No text selected')
+    return
+  }
+
+  const url = editor.document.getText(editor.selection)
+
+  // console.log(url)
 
   if (!url || url.length <= 0) {
-    vscode.window.showErrorMessage('Please Enter a valid URL')
+    vscode.window.showErrorMessage('That is not a URL')
     return
   }
 
@@ -92,6 +94,6 @@ async function getTypes(context: vscode.ExtensionContext) {
   panel.webview.html = createHTML(types, panel.webview, context)
 }
 
-export { getTypes }
+export { getTypesFromSelected }
 
 // https://jsonplaceholder.typicode.com/users

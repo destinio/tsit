@@ -15,7 +15,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:tsit.get-types"
+    "onCommand:tsit.get-types",
+    "onCommand:tsit.get-types-select"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -24,8 +25,21 @@
         "command": "tsit.get-types",
         "category": "TsIt",
         "title": "Get Types"
+      },
+      {
+        "command": "tsit.get-types-select",
+        "category": "TsIt",
+        "title": "Get Types from selected"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "tsit.get-types-select",
+          "group": "YourGroup@1"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
