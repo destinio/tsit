@@ -6,6 +6,9 @@ Get TS type defentions from json end-point
 - Search for Get Types
 - insert valid URL
 
+- right click url in editor
+- CLick: Get Types from selected
+
 ## Outut
 
 ```typescript

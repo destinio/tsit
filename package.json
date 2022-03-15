@@ -2,7 +2,7 @@
   "name": "tsit",
   "displayName": "tsit",
   "description": "Get TypeScript type defs from api end-point",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "publisher": "destinio",
   "icon": "logo.png",
   "repository": {
